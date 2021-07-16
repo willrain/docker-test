@@ -1,0 +1,20 @@
+# https://docs.docker.com/compose/compose-file/
+
+version: "3"
+
+services:
+  webapp:
+    image: global-nexus:9003/gssg-centos
+    #build: global-nexus:9003/magento2-app
+    container_name: gssg-centos
+    #command: bash
+
+  nginx:
+    image: global-nexus:9003/gssg-nginx
+    container_name: gssg-nginx
+    ports:
+      - 80:80
+      - 443:443
+
+# 실행
+## docker-compose up
