@@ -1,0 +1,5 @@
+xpack.security.enabled: false
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+
+# 운영서버 10.203.10.46

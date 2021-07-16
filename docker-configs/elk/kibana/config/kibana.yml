@@ -1,0 +1,14 @@
+server.name : kibana
+server.host : "0"
+elasticsearch.url : http://202.8.174.167:9020
+
+
+# 운영 서버
+server.port: 9040
+server.host : "0"
+server.name : kibana-prod
+elasticsearch.url : http://10.203.10.52:9020
+  #- http://10.203.10.52:9021
+  #- http://10.203.10.46:9020
+  #- http://10.203.10.46:9021
+kibana.index: ".kibana-prod"  

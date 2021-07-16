@@ -1,0 +1,9 @@
+http.host: "0.0.0.0"
+path.config: /usr/share/logstash/pipeline
+xpack.monitoring.enabled: false
+
+#/data01/elastic/logstash/pipeline
+
+#xpack.monitoring.elasticsearch.url: http://202.8.174.167:9020
+#xpack.monitoring.elasticsearch.username: logstash_system
+#xpack.monitoring.elasticsearch.password: changeme

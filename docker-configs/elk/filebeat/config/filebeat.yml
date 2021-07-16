@@ -1,0 +1,26 @@
+filebeat.prospectors:
+- type: log
+  enabled: true
+  paths:
+    - /data01/logs/mageLog/search/output_*.log
+
+#output.elasticsearch:
+#  hosts: ["192.168.1.42:9020"]
+#  index: "logs-%{[beat.version]}-%{+yyyy.MM.dd}"
+#  indices:
+#    - index: "critical-%{[beat.version]}-%{+yyyy.MM.dd}"
+#      when.contains:
+#        message: "CRITICAL"
+#    - index: "error-%{[beat.version]}-%{+yyyy.MM.dd}"
+#      when.contains:
+#        message: "ERR"
+
+setup.kibana:
+  #host: "localhost:5601"
+  host: "202.8.174.167:9040"
+
+output.logstash:
+  hosts: ["202.8.174.167:9050"]
+
+
+# chmod go-w filebeat.yml
