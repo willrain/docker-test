@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Start the cron service
+#/usr/sbin/cron
+
+
+echo "# args = " $@
+
+echo "
+#------------------------------------------------------------------------
+# START php-fpm service
+#------------------------------------------------------------------------
+"
+/usr/local/sbin/php-fpm
