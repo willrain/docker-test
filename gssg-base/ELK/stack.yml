@@ -1,0 +1,49 @@
+# https://docs.docker.com/compose/compose-file/
+version: "2"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.4
+    container_name: elasticsearch
+    volumes:
+      - /data01/docker/ssg-global-docker/docker-configs/elk/elasticsearch/config/elasticsearch-6.1.4.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /data01/docker/ssg-global-docker/docker-volumes/elk/esdata:/usr/share/elasticsearch/data
+    env_file:
+      - elk.env
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9020:9200
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.4
+    container_name: kibana
+    env_file:
+      - elk.env
+    volumes:
+      - /data01/docker/ssg-global-docker/docker-configs/elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 9040:5601
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.1.4
+    container_name: logstash
+    env_file:
+      - elk.env
+    volumes:
+      - /data01/docker/ssg-global-docker/docker-configs/elk/logstash/config/:/usr/share/logstash/config/
+      - /data01/docker/ssg-global-docker/docker-configs/elk/logstash/pipeline/:/usr/share/logstash/pipeline/
+    ports:
+      - 9050:5044
+
+
+networks:
+  esnet:
+
+# 실행
+## sudo docker-compose -f stack.yml up
+## sudo docker-compose -f stack.yml down
