@@ -1,0 +1,1 @@
+* * * * * echo "hello stackoverflow" >> /data01/logs/cronjob/test.log 2>&1

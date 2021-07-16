@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+
+if [ -z ${ZONE} ]; then
+    echo "# WARN 'ZONE' value is not found ."
+    ZONE=local
+fi
+
+if [ -z ${DB} ]; then
+    echo "# WARN 'DB' value is not found ."
+    DB=local
+fi
+
+if [ -z ${REDIS} ]; then
+    echo "# WARN 'REDIS' value is not found ."
+    REDIS=local
+fi
+
+if [ -z ${BUILD} ]; then
+    echo "# WARN 'BUILD' value is not found ."
+    BUILD=Y
+fi
+
+if [ -z ${USER} ]; then
+    echo "# WARN 'USER' value is not found ."
+    USER=135224
+fi
+
+
+
+echo "
+#------------------------------------------------------------------------
+# ENV PROPERTIES
+#   - ZONE  = ${ZONE}
+#   - DB    = ${DB}
+#   - REDIS = ${REDIS}
+#   - BUILD = ${BUILD}
+#   - USER  = ${USER}
+#------------------------------------------------------------------------"
+
+
+echo "
+#------------------------------------------------------------------------
+# START Magento build - ${ZONE}
+#------------------------------------------------------------------------"
+/data01/webroot/bin/init_webapp.sh ${ZONE} ${BUILD}
+
+#------------------------------------------------------------------------
+# END Magento build
+#------------------------------------------------------------------------"
+
+echo "
+#------------------------------------------------------------------------
+# START php-fpm service
+#------------------------------------------------------------------------"
+/usr/local/sbin/php-fpm

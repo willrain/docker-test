@@ -1,0 +1,16 @@
+CHANGELOG.md
+CONTRIBUTING.md
+COPYING.txt
+exclude.lst
+Gruntfile.js.sample
+ISSUE_TEMPLATE.md
+LICENSE_AFL.txt
+nginx.conf.sample
+package.json.sample
+php.ini.sample
+README_EE.md
+README.md
+ssg-global-webapp.tar.gz
+phpserver
+var
+vendor/magento/sample-data-media

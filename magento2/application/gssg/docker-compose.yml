@@ -1,0 +1,77 @@
+# https://docs.docker.com/compose/compose-file/
+
+version: "3"
+
+services:
+  redis:
+    image: global-nexus:9003/gssg-redis
+    container_name: magento2-gssg-redis
+    env_file:
+      - webapp.env
+    networks:
+      - backend
+
+  webapp:
+    image: global-nexus:9003/magento2-gssg-webapp
+    #build: global-nexus:9003/magento2-app
+    container_name: magento2-gssg-webapp
+    hostname: localhost.localdomain
+    #command: "--zone=local"
+    env_file:
+      - webapp.env
+    volumes: &core-webapp-volumes
+      - socket:/sock
+      #- webroot:/data01/webroot/www
+      - /data01/webroot/ssg-global-webapp-docker:/data01/webroot/www
+      - /data01/logs:/data01/logs
+      - /data01/sw/nginx/ssl:/data01/sw/nginx/ssl:ro
+    networks:
+      - front
+      - backend
+    links:
+      - redis
+
+#  phpfpm:
+    #image: global-nexus:9003/magento2-phpfpm
+    #container_name: magento2-core-phpfpm
+    #volumes: *core-webapp-volumes
+    #networks:
+    #  - front
+    #links:
+    #  - webapp
+
+  nginx:
+    image: global-nexus:9003/magento2-nginx
+    container_name: magento2-gssg-nginx
+    env_file:
+      - webapp.env
+    volumes: *core-webapp-volumes
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - front
+    links:
+      - webapp
+
+
+
+#  cron:
+#    image: global-nexus:9003/gssg-cron
+#    container_name: magento2-cron
+#    volumes: *webapp-volumes
+#    networks:
+#      - global-backend
+#    links:
+#      - webapp
+
+volumes:
+  webroot:
+  socket:
+
+networks:
+  front:
+  backend:
+
+# 실행
+## docker-compose up -d

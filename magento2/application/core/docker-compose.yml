@@ -1,0 +1,64 @@
+# https://docs.docker.com/compose/compose-file/
+
+version: "3"
+
+services:
+  webapp:
+    image: global-nexus:9003/magento2-core-webapp
+    #build: global-nexus:9003/magento2-app
+    container_name: magento2-core-webapp
+    #command: "/data01/webroot/bin/init_webapp.sh"
+    volumes: &core-webapp-volumes
+      - socket:/sock
+      - webroot:/data01/webroot/www
+      - /data01/sw/nginx/ssl:/data01/sw/nginx/ssl:ro
+    networks:
+      - front
+
+  phpfpm:
+    image: global-nexus:9003/magento2-phpfpm
+    container_name: magento2-core-phpfpm
+    volumes: *core-webapp-volumes
+    networks:
+      - front
+    links:
+      - webapp
+
+  nginx:
+    image: global-nexus:9003/magento2-nginx
+    container_name: magento2-core-nginx
+    volumes: *core-webapp-volumes
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - front
+    links:
+      - webapp
+
+#  cron:
+#    image: global-nexus:9003/gssg-cron
+#    container_name: magento2-cron
+#    volumes: *webapp-volumes
+#    networks:
+#      - global-backend
+#    links:
+#      - webapp
+
+#  db:
+#    image: percona:5.7
+#    container_name: magento2-core-mysql
+#    ports:
+#      - 3306:3306
+#    env_file: env/db.env
+
+volumes:
+  webroot:
+  socket:
+
+networks:
+  front:
+
+
+# 실행
+## docker-compose up
